@@ -1,6 +1,10 @@
 # impress-router
 Express style router for koa
 
+参考 express 4.x 分支代码
+https://github.com/strongloop/express/blob/4.x/lib%2Frouter%2Findex.js
+
+
 ## Install
 ```sh
 npm i impress-router --save
