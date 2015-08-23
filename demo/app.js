@@ -15,6 +15,13 @@ router.use('/public', function * () {
   };
 });
 
+request(app.listen())
+  .get('/public/js/app.js')
+  .end(function(err, res) {
+    console.log(arguments);
+  });
+
+/*
 var fn = function * (next) {
   console.log(this.path);
   console.log(this.basePath);
@@ -32,11 +39,7 @@ router_b.use('/c',fn,router_c);
 router_c.get('/',function(){
 
 });
-
-request(app.listen())
-  .get('/public/js/app.js')
-  .end();
-
+*/
 
 // /**
 //  * 在某一path上use router
