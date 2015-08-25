@@ -1,4 +1,4 @@
-var app = require('koa')();
+var app = module.exports = require('koa')();
 var Router = require('../lib/router');
 var router = Router();
 var request = require('supertest');
@@ -15,11 +15,11 @@ router.use('/public', function * () {
   };
 });
 
-request(app.listen())
-  .get('/public/js/app.js')
-  .end(function(err, res) {
-    console.log(arguments);
-  });
+router.get('/hello', function * () {
+  this.body = 'world';
+});
+
+
 
 /*
 var fn = function * (next) {
