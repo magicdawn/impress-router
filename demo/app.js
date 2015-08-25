@@ -15,16 +15,18 @@ router.use('/public', function * () {
   };
 });
 
+/**
+ * simple route
+ */
 router.get('/hello', function * () {
   this.body = 'world';
 });
 
-
-
-/*
+/**
+ * nested router test
+ */
 var fn = function * (next) {
-  console.log(this.path);
-  console.log(this.basePath);
+  console.log('basePath: %s, path: %s', this.basePath, this.path);
   yield next;
 };
 
@@ -32,36 +34,15 @@ var router_a = Router();
 var router_b = Router();
 var router_c = Router();
 
-router.use('/a',fn,router_a);
-router_a.use('/b',fn,router_b);
-router_b.use('/c',fn,router_c);
+router.use('/a', fn, router_a);
+router_a.use('/b', fn, router_b);
+router_b.use('/c', fn, router_c);
 
-router_c.get('/',function(){
-
+router_c.get('/', function * () {
+  console.log('calling ');
+  this.body = {
+    path: this.path,
+    basePath: this.basePath,
+    originalPath: this.originalPath
+  }
 });
-*/
-
-// /**
-//  * 在某一path上use router
-//  */
-// var user_router = Router();
-// user_router.get('/detail', function * () {
-//   // get /user/detail
-//   this.path = '/detail'
-// });
-// router.use('/user', user_router);
-
-// *
-//  * 直接use middleware
-
-// router.use(function * () {
-//   // get /abcd/efg
-//   this.path = '/abcd/efg'
-// });
-
-// /**
-//  * do route
-//  */
-// router.get('/', function * () {
-//   this.body = 'index page';
-// });

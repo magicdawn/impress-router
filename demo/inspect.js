@@ -19,3 +19,13 @@ request(server)
   .end(function(err, res) {
     console.log(res.text);
   });
+
+/**
+ * nested router
+ */
+request(server)
+  .get('/a/b/c')
+  .end(function(err, res) {
+    // console.log(err);
+    console.log(res.body);
+  });
