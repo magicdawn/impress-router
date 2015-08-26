@@ -55,3 +55,17 @@ router.get('/user/:id/detail', function * (next) {
     id: this.params.id
   }
 });
+
+/**
+ * nested param
+ */
+var router_user = Router({
+  mergeParams: true
+});
+router.use('/user/:id', router_user);
+router_user.get('/detail/:field', function * () {
+  this.body = {
+    id: this.params.id,
+    field: this.params.field
+  }
+});

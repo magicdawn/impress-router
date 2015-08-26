@@ -37,4 +37,13 @@ request(server)
   .get('/user/magicdawn/detail')
   .end(function(err, res) {
     console.log(res.body);
-  })
+  });
+
+/**
+ * nested params
+ */
+request(server)
+  .get('/user/magicdawn/detail/age')
+  .end(function(err, res) {
+    console.log(res.body);
+  });
