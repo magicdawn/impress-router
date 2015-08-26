@@ -29,3 +29,12 @@ request(server)
     // console.log(err);
     console.log(res.body);
   });
+
+/**
+ * simple params
+ */
+request(server)
+  .get('/user/magicdawn/detail')
+  .end(function(err, res) {
+    console.log(res.body);
+  })

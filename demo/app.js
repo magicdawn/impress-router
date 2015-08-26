@@ -46,3 +46,12 @@ router_c.get('/', function * () {
     originalPath: this.originalPath
   }
 });
+
+/**
+ * param
+ */
+router.get('/user/:id/detail', function * (next) {
+  this.body = {
+    id: this.params.id
+  }
+});
