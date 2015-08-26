@@ -11,13 +11,15 @@
     "path-to-regexp": "^0.1.6"
   },
   "devDependencies": {
+    "istanbul-harmony": "^0.3.16",
     "koa": "^0.21.0",
     "mocha": "^2.2.5",
     "should": "^7.0.1",
     "supertest": "^1.0.1"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "test-cover": "istanbul cover _mocha -- -R spec -u exports"
   },
   "repository": {
     "type": "git",
@@ -28,6 +30,11 @@
     "router",
     "route",
     "express"
+  ],
+  "files": [
+    "lib/",
+    "package.json",
+    "README.md"
   ],
   "author": "magicdawn",
   "license": "MIT",
