@@ -40,6 +40,7 @@ describe('router should be ok', function() {
       request(app.listen())
         .get('/public/js/foo.js')
         .end(function(err, res) {
+          // console.log(err);
           var j = res.body;
 
           // assert
@@ -47,6 +48,19 @@ describe('router should be ok', function() {
           j.basePath.should.equal('/public');
           j.path.should.equal('/js/foo.js');
 
+          done();
+        });
+    });
+
+    it('fast_slash middleware', function(done) {
+      router.use(function * () {
+        this.body = 'awesome site';
+      });
+
+      request(app.listen())
+        .get('/')
+        .end(function(err, res) {
+          res.text.should.match(/awesome/);
           done();
         });
     });
