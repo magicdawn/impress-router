@@ -264,5 +264,27 @@ describe('router should be ok', function() {
         router.get('/', function() {});
       });
     });
+
+    it('throws when miss function', function() {
+      assert.throws(function() {
+        router.get('/');
+      });
+    });
+
+    it('use multiple handler once', function(done) {
+      router.get('/hello', function * (next) {
+        this.body = 'foo';
+        yield next;
+      }, function * () {
+        this.body += 'bar';
+      });
+
+      request(app.listen())
+        .get('/hello')
+        .end(function(err, res) {
+          res.text.should.equal('foobar');
+          done();
+        });
+    });
   });
 });
