@@ -1,7 +1,7 @@
 var koa = require('koa');
-var should = require('should');
 var request = require('supertest');
 var Router = require('../lib/router');
+var assert = require('assert');
 
 describe('router should be ok', function() {
   var app;
@@ -93,6 +93,24 @@ describe('router should be ok', function() {
         .get('/user/magicdawn')
         .end(function(err, res) {
           res.text.should.equal('magicdawn');
+          done();
+        });
+    });
+
+    it('automatic OPTIONS response', function(done) {
+      router.get('/foo', function * () {
+        this.body = 'foo';
+      });
+
+      router.post('/foo', function * () {
+        this.body = 'bar';
+      });
+
+      request(app.listen())
+        .options('/foo')
+        .end(function(err, res) {
+
+          res.headers['allow'].should.match(/GET,POST/);
           done();
         });
     });

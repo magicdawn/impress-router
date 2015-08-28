@@ -20,7 +20,7 @@
   },
   "scripts": {
     "test": "mocha",
-    "test-cover": "istanbul cover _mocha -- -R spec -u exports"
+    "test-cover": "istanbul cover _mocha -- -u exports"
   },
   "repository": {
     "type": "git",
