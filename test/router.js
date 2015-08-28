@@ -2,6 +2,7 @@ var koa = require('koa');
 var request = require('supertest');
 var Router = require('../lib/router');
 var assert = require('assert');
+var METHODS = require('methods');
 
 describe('router should be ok', function() {
   var app;
@@ -22,6 +23,90 @@ describe('router should be ok', function() {
     (typeof router).should.equal('function');
     router.constructor.name.should.equal('GeneratorFunction');
   });
+
+  it('nested router', function(done) {
+    var routerA = Router();
+    var routerB = Router();
+    var routerC = Router();
+
+    router.use('/a', routerA);
+    routerA.use('/b', routerB);
+    routerB.use('/c', routerC);
+
+    routerC.get('/', function * () {
+      this.body = {
+        base: this.basePath,
+        original: this.originalPath,
+        path: this.path
+      };
+    })
+
+    request(app.listen())
+      .get('/a/b/c')
+      .end(function(err, res) {
+        var j = res.body;
+        // console.log(j);
+
+        j.base.should.equal('/a/b/c');
+        j.original.should.equal('/a/b/c');
+        j.path.should.equal('/');
+
+        done();
+      })
+  });
+
+  describe('params#', function() {
+
+    it('default `mergeParams` = true', function(done) {
+      var userRouter = Router();
+      router.use('/user/:uid', userRouter);
+
+      userRouter.get('/get_:field', function * () {
+        this.body = {
+          uid: this.params.uid,
+          field: this.params.field
+        }
+      });
+
+      request(app.listen())
+        .get('/user/magicdawn/get_name')
+        .end(function(err, res) {
+          var j = res.body;
+          // console.log(j);
+
+          j.uid.should.equal('magicdawn');
+          j.field.should.equal('name');
+
+          done();
+        })
+    });
+
+    it('set `mergeParams` to false', function(done) {
+      var userRouter = Router({
+        mergeParams: false
+      });
+      router.use('/user/:uid', userRouter);
+
+      userRouter.get('/get_:field', function * () {
+        this.body = {
+          uid: this.params.uid,
+          field: this.params.field
+        }
+      });
+
+      request(app.listen())
+        .get('/user/magicdawn/get_name')
+        .end(function(err, res) {
+          var j = res.body;
+
+          j.field.should.equal('name');
+          assert.equal(j.uid, undefined);
+
+          done();
+        })
+    });
+  });
+
 
   /**
    * middleware
@@ -64,6 +149,34 @@ describe('router should be ok', function() {
           done();
         });
     });
+
+    it('throws when not using GeneratorFunction', function() {
+      assert.throws(function() {
+        router.use(function() {});
+      });
+    });
+
+    it('throws when miss function', function() {
+      assert.throws(function() {
+        router.use('/');
+      });
+    });
+
+    it('use multiple middlewares once', function(done) {
+      router.use(function * (next) {
+        this.body = 'a';
+        yield next;
+      }, function * () {
+        this.body += 'b';
+      });
+
+      request(app.listen())
+        .get('/')
+        .end(function(err, res) {
+          res.text.should.equal('ab');
+          done();
+        });
+    });
   });
 
   /**
@@ -97,6 +210,20 @@ describe('router should be ok', function() {
         });
     });
 
+    it('`all` method support', function(done) {
+      router.all('/hello', function * () {
+        this.body = 'world';
+      });
+
+      app = app.callback();
+      request(app)
+        .get('/hello')
+        .end(function(err, res) {
+          res.text.should.equal('world');
+          done();
+        });
+    });
+
     it('automatic OPTIONS response', function(done) {
       router.get('/foo', function * () {
         this.body = 'foo';
@@ -113,6 +240,29 @@ describe('router should be ok', function() {
           res.headers['allow'].should.match(/GET,POST/);
           done();
         });
+    });
+
+    it('automatic HEAD response', function(done) {
+      router.get('/foo', function * () {
+        this.body = 'hello world';
+      });
+
+      request(app.listen())
+        .head('/foo')
+        .end(function(err, res) {
+
+          var len = Buffer.byteLength('hello world').toString();
+          var header = res.headers['content-length'];
+          header.should.equal(len);
+
+          done();
+        });
+    });
+
+    it('throws when not using GeneratorFunction', function() {
+      assert.throws(function() {
+        router.get('/', function() {});
+      });
     });
   });
 });
