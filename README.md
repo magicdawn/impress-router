@@ -1,6 +1,11 @@
 # impress-router
 Express style router for koa
 
+[![Build Status](https://travis-ci.org/magicdawn/impress-router.svg)](https://travis-ci.org/magicdawn/impress-router)
+[![Coverage Status](https://coveralls.io/repos/magicdawn/impress-router/badge.svg?branch=master&service=github)](https://coveralls.io/github/magicdawn/impress-router?branch=master)
+[![npm version](https://img.shields.io/npm/v/impress-router.svg)](https://www.npmjs.com/package/impress-router)
+[![npm downloads](https://img.shields.io/npm/dm/impress-router.svg)](https://www.npmjs.com/package/impress-router)
+
 
 ## Install
 ```sh
