@@ -33,7 +33,7 @@
     "express"
   ],
   "files": [
-    "lib/",
+    "lib",
     "package.json",
     "README.md"
   ],
