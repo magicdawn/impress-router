@@ -14,12 +14,33 @@ npm i impress-router --save
 
 ## API
 
+### basic
+
 ```js
 var Router = require('impress-router');
 var router = Router();
 app.use(router);
+```
 
-// use middleware
+`new Router(options)`, or with out new `Router(options)`
+
+Options
+
+- goNext: default true, whether go down stream
+- strict,sensitive: these are [path-to-regexp]() options
+- mergeParams: default true, whether merge params when nested router
+
+
+### middleware
+
+use middleware on some path, and you got `ctx.path` `ctx.basePath` `ctx.originalPath`
+just as Express's `req.baseUrl` / `req.originalUrl` does:
+
+```js
+var app = require('koa')();
+var router = require('impress-router')();
+app.use(router);
+
 router.use('/public',function (next){
   
   // when requesting `/public/js/foo.js`
@@ -30,18 +51,53 @@ router.use('/public',function (next){
   yield next;
 });
 
-// use middleware on all path
-router.use(function * (next){
-  this.body = 'hello';
-  yield next;
-})
+```
 
-// GET POST blabla
+Em, use on all request:
+
+```js
+var app = require('koa')();
+var router = require('impress-router')();
+app.use(router);
+
+router.use(function * (next){
+  this.user = { name: 'foo', age: 18 };
+  yield* next;
+})
+```
+
+### route
+
+#### Features
+
+- `GET POST ...` methods exposed by `methods` module are supported
+- all supported, `router.all(path,fn)`
+- auto `OPTIONS` response
+- auto `HEAD` response
+
+
+```js
+var app = require('koa')();
+var router = require('impress-router')();
+app.use(router);
+
 router.get('/hello',function * (){
   this.body = 'hello';
 });
 
-// params
+router.all('/hello',function * (){
+  this.body = 'hello';
+});
+```
+
+#### params
+
+```js
+var app = require('koa')();
+var Router = require('impress-router');
+var router = Router();
+app.use(router);
+
 var userRouter = Router();
 router.use('/user/:uid', userRouter);
 
@@ -51,6 +107,7 @@ userRouter.get('/get_:field', function * () {
     field: this.params.field
   }
 });
+
 // GET /user/magicdawn/get_name 
 // =>
 // { uid: 'magicdawn', field: 'name' }
