@@ -113,5 +113,8 @@ userRouter.get('/get_:field', function * () {
 // { uid: 'magicdawn', field: 'name' }
 ```
 
+## Why
+koa-router is not handy as expected, so ...
+
 ## License
-MIT http://magicdawn.mit-license.org
+MIT &copy; 2015 Magicdawn http://magicdawn.mit-license.org
