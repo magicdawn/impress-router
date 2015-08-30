@@ -1,6 +1,6 @@
 {
   "name": "impress-router",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "express style router for koa",
   "main": "lib/router.js",
   "dependencies": {
