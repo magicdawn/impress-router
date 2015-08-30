@@ -185,9 +185,13 @@ describe('router should be ok', function() {
   describe('route', function() {
 
     it('have route handle correctly', function(done) {
-      router.get('/foo/bar', function * () {
+      var fn = function * () {
         this.body = this.path;
-      });
+      };
+
+      router
+        .get('/foo/bar', fn)
+        .get('/bar/foo', fn);
 
       request(app.listen())
         .get('/foo/bar')
