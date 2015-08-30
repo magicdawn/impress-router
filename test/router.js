@@ -4,7 +4,7 @@ var Router = require('../lib/router');
 var assert = require('assert');
 var METHODS = require('methods');
 
-describe('router should be ok', function() {
+describe('Router', function() {
   var app;
   var router;
 
