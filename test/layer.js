@@ -1,3 +1,5 @@
+'use strict';
+
 var koa = require('koa');
 var request = require('supertest');
 var assert = require('assert');
@@ -8,7 +10,7 @@ describe('Layer', function() {
   it('construct without new', function() {
     var l = Layer('/foo', {
       end: true
-    }, function * () {
+    }, function*() {
       this.body = 'foo';
     });
 
@@ -18,7 +20,7 @@ describe('Layer', function() {
   it('#match(path) return false when path is empty', function() {
     var l = Layer('/foo', {
       end: true
-    }, function * () {
+    }, function*() {
       this.body = 'foo';
     });
 

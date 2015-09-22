@@ -1,3 +1,5 @@
+'use strict';
+
 var koa = require('koa');
 var request = require('supertest');
 var Route = require('../lib/route');
@@ -18,7 +20,7 @@ describe('Route', function() {
   it('play with route', function(done) {
     var r = Route('/foo');
 
-    app.use(function * (next) {
+    app.use(function*(next) {
       var ctx = this;
       yield r.dispatch(next, ctx);
     });
@@ -32,7 +34,7 @@ describe('Route', function() {
 
   it('one route', function(done) {
 
-    var fn = function * () {
+    var fn = function*() {
       this.body = this.method;
     };
 
@@ -41,7 +43,7 @@ describe('Route', function() {
       .post(fn)
       .put(fn);
 
-    app.use(function * (next) {
+    app.use(function*(next) {
       yield r.dispatch(next, this);
     });
 

@@ -1,3 +1,5 @@
+'use strict';
+
 var koa = require('koa');
 var request = require('supertest');
 var Router = require('../lib/router');
@@ -33,13 +35,13 @@ describe('Router', function() {
     routerA.use('/b', routerB);
     routerB.use('/c', routerC);
 
-    routerC.get('/', function * () {
+    routerC.get('/', function*() {
       this.body = {
         base: this.basePath,
         original: this.originalPath,
         path: this.path
       };
-    })
+    });
 
     request(app.listen())
       .get('/a/b/c')
@@ -52,7 +54,7 @@ describe('Router', function() {
         j.path.should.equal('/');
 
         done();
-      })
+      });
   });
 
   describe('params#', function() {
@@ -61,24 +63,24 @@ describe('Router', function() {
       var userRouter = Router();
       router.use('/user/:uid', userRouter);
 
-      userRouter.get('/get_:field', function * () {
+      userRouter.get('/get_:field', function*() {
         this.body = {
           uid: this.params.uid,
           field: this.params.field
-        }
+        };
       });
 
       request(app.listen())
         .get('/user/magicdawn/get_name')
         .end(function(err, res) {
           var j = res.body;
-          // console.log(j);
+          console.log(j);
 
           j.uid.should.equal('magicdawn');
           j.field.should.equal('name');
 
           done();
-        })
+        });
     });
 
     it('set `mergeParams` to false', function(done) {
@@ -87,11 +89,11 @@ describe('Router', function() {
       });
       router.use('/user/:uid', userRouter);
 
-      userRouter.get('/get_:field', function * () {
+      userRouter.get('/get_:field', function*() {
         this.body = {
           uid: this.params.uid,
           field: this.params.field
-        }
+        };
       });
 
       request(app.listen())
@@ -103,7 +105,7 @@ describe('Router', function() {
           assert.equal(j.uid, undefined);
 
           done();
-        })
+        });
     });
   });
 
@@ -114,7 +116,7 @@ describe('Router', function() {
   describe('middleware', function() {
     it('use a middleware on a /path', function(done) {
 
-      router.use('/public', function * () {
+      router.use('/public', function*() {
         this.body = {
           originalPath: this.originalPath,
           basePath: this.basePath,
@@ -129,7 +131,7 @@ describe('Router', function() {
           var j = res.body;
 
           // assert
-          j.originalPath.should.equal('/public/js/foo.js')
+          j.originalPath.should.equal('/public/js/foo.js');
           j.basePath.should.equal('/public');
           j.path.should.equal('/js/foo.js');
 
@@ -138,7 +140,7 @@ describe('Router', function() {
     });
 
     it('fast_slash middleware', function(done) {
-      router.use(function * () {
+      router.use(function*() {
         this.body = 'awesome site';
       });
 
@@ -163,10 +165,10 @@ describe('Router', function() {
     });
 
     it('use multiple middlewares once', function(done) {
-      router.use(function * (next) {
+      router.use(function*(next) {
         this.body = 'a';
         yield next;
-      }, function * () {
+      }, function*() {
         this.body += 'b';
       });
 
@@ -185,7 +187,7 @@ describe('Router', function() {
   describe('route', function() {
 
     it('have route handle correctly', function(done) {
-      var fn = function * () {
+      var fn = function*() {
         this.body = this.path;
       };
 
@@ -202,7 +204,7 @@ describe('Router', function() {
     });
 
     it('simple params', function(done) {
-      router.get('/user/:id', function * () {
+      router.get('/user/:id', function*() {
         this.body = this.params.id;
       });
 
@@ -215,7 +217,7 @@ describe('Router', function() {
     });
 
     it('`all` method support', function(done) {
-      router.all('/hello', function * () {
+      router.all('/hello', function*() {
         this.body = 'world';
       });
 
@@ -229,11 +231,11 @@ describe('Router', function() {
     });
 
     it('automatic OPTIONS response', function(done) {
-      router.get('/foo', function * () {
+      router.get('/foo', function*() {
         this.body = 'foo';
       });
 
-      router.post('/foo', function * () {
+      router.post('/foo', function*() {
         this.body = 'bar';
       });
 
@@ -247,7 +249,7 @@ describe('Router', function() {
     });
 
     it('automatic HEAD response', function(done) {
-      router.get('/foo', function * () {
+      router.get('/foo', function*() {
         this.body = 'hello world';
       });
 
@@ -276,10 +278,10 @@ describe('Router', function() {
     });
 
     it('use multiple handler once', function(done) {
-      router.get('/hello', function * (next) {
+      router.get('/hello', function*(next) {
         this.body = 'foo';
         yield next;
-      }, function * () {
+      }, function*() {
         this.body += 'bar';
       });
 
