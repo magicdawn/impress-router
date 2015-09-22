@@ -1,5 +1,5 @@
 # impress-router
-Express style router for koa
+port Express router to koa
 
 [![Build Status](https://travis-ci.org/magicdawn/impress-router.svg)](https://travis-ci.org/magicdawn/impress-router)
 [![Coverage Status](https://coveralls.io/repos/magicdawn/impress-router/badge.svg?branch=master)](https://coveralls.io/github/magicdawn/impress-router?branch=master)
@@ -42,7 +42,7 @@ var router = require('impress-router')();
 app.use(router);
 
 router.use('/public',function (next){
-  
+
   // when requesting `/public/js/foo.js`
   this.path; // `/js/foo.js`
   this.basePath; // `/public`
@@ -108,7 +108,7 @@ userRouter.get('/get_:field', function * () {
   }
 });
 
-// GET /user/magicdawn/get_name 
+// GET /user/magicdawn/get_name
 // =>
 // { uid: 'magicdawn', field: 'name' }
 ```
