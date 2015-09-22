@@ -74,7 +74,7 @@ describe('Router', function() {
         .get('/user/magicdawn/get_name')
         .end(function(err, res) {
           var j = res.body;
-          console.log(j);
+          // console.log(j);
 
           j.uid.should.equal('magicdawn');
           j.field.should.equal('name');
