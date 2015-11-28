@@ -45,6 +45,6 @@
   },
   "homepage": "https://github.com/magicdawn/impress-router",
   "engines": {
-    "node": ">=4",
+    "node": ">=4"
   }
 }
