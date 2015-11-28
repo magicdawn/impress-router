@@ -19,7 +19,7 @@ rules:
   strict: [2, global]
 
   # 大括号
-  curly: 2 # 需要大括号
+  curly: [2, multi-line] # 多行, 需要大括号
   brace-style: 2 # 左大括号同一行
 
   # es6
