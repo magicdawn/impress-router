@@ -26,5 +26,7 @@ describe('Layer', function() {
 
     l.match(null).should.equal(false);
     l.match('').should.equal(false);
+    l.match('/bar').should.equal(false);
+    l.match('/foo').should.equal(true);
   });
 });
