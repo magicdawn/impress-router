@@ -1,14 +1,14 @@
 'use strict';
 
-var koa = require('koa');
-var request = require('supertest');
-var assert = require('assert');
-var METHODS = require('methods');
-var Layer = require('../lib/layer');
+const koa = require('koa');
+const request = require('supertest');
+const assert = require('assert');
+const METHODS = require('methods');
+const Layer = require('../lib/layer');
 
 describe('Layer', function() {
   it('construct without new', function() {
-    var l = Layer('/foo', {
+    const l = Layer('/foo', {
       end: true
     }, function*() {
       this.body = 'foo';
@@ -18,7 +18,7 @@ describe('Layer', function() {
   });
 
   it('#match(path) return false when path is empty', function() {
-    var l = Layer('/foo', {
+    const l = Layer('/foo', {
       end: true
     }, function*() {
       this.body = 'foo';

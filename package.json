@@ -12,6 +12,7 @@
   },
   "devDependencies": {
     "coveralls": "^2.11.4",
+    "eslint": "^1.10.2",
     "istanbul-harmony": "^0.3.16",
     "koa": "^0.21.0",
     "mocha": "^2.2.5",

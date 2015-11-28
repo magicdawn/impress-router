@@ -1,14 +1,14 @@
 'use strict';
 
-var koa = require('koa');
-var request = require('supertest');
-var Router = require('../lib/router');
-var assert = require('assert');
-var METHODS = require('methods');
+const koa = require('koa');
+const request = require('supertest');
+const Router = require('../lib/router');
+const assert = require('assert');
+const METHODS = require('methods');
 
 describe('Router', function() {
-  var app;
-  var router;
+  let app;
+  let router;
 
   beforeEach(function() {
     app = koa();
@@ -17,7 +17,7 @@ describe('Router', function() {
   });
 
   it('ok with/without new', function() {
-    var router = new Router();
+    let router = new Router();
     (typeof router).should.equal('function');
     router.constructor.name.should.equal('GeneratorFunction');
 
@@ -27,9 +27,9 @@ describe('Router', function() {
   });
 
   it('nested router', function(done) {
-    var routerA = Router();
-    var routerB = Router();
-    var routerC = Router();
+    const routerA = Router();
+    const routerB = Router();
+    const routerC = Router();
 
     router.use('/a', routerA);
     routerA.use('/b', routerB);
@@ -46,7 +46,7 @@ describe('Router', function() {
     request(app.listen())
       .get('/a/b/c')
       .end(function(err, res) {
-        var j = res.body;
+        const j = res.body;
         // console.log(j);
 
         j.base.should.equal('/a/b/c');
@@ -60,7 +60,7 @@ describe('Router', function() {
   describe('params#', function() {
 
     it('default `mergeParams` = true', function(done) {
-      var userRouter = Router();
+      const userRouter = Router();
       router.use('/user/:uid', userRouter);
 
       userRouter.get('/get_:field', function*() {
@@ -73,7 +73,7 @@ describe('Router', function() {
       request(app.listen())
         .get('/user/magicdawn/get_name')
         .end(function(err, res) {
-          var j = res.body;
+          const j = res.body;
           // console.log(j);
 
           j.uid.should.equal('magicdawn');
@@ -84,7 +84,7 @@ describe('Router', function() {
     });
 
     it('set `mergeParams` to false', function(done) {
-      var userRouter = Router({
+      const userRouter = Router({
         mergeParams: false
       });
       router.use('/user/:uid', userRouter);
@@ -99,7 +99,7 @@ describe('Router', function() {
       request(app.listen())
         .get('/user/magicdawn/get_name')
         .end(function(err, res) {
-          var j = res.body;
+          const j = res.body;
 
           j.field.should.equal('name');
           assert.equal(j.uid, undefined);
@@ -128,7 +128,7 @@ describe('Router', function() {
         .get('/public/js/foo.js')
         .end(function(err, res) {
           // console.log(err);
-          var j = res.body;
+          const j = res.body;
 
           // assert
           j.originalPath.should.equal('/public/js/foo.js');
@@ -187,7 +187,7 @@ describe('Router', function() {
   describe('route', function() {
 
     it('have route handle correctly', function(done) {
-      var fn = function*() {
+      const fn = function*() {
         this.body = this.path;
       };
 
@@ -257,8 +257,8 @@ describe('Router', function() {
         .head('/foo')
         .end(function(err, res) {
 
-          var len = Buffer.byteLength('hello world').toString();
-          var header = res.headers['content-length'];
+          const len = Buffer.byteLength('hello world').toString();
+          const header = res.headers['content-length'];
           header.should.equal(len);
 
           done();

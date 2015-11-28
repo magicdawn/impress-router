@@ -1,6 +1,7 @@
-var app = require('./app');
-var server = app.listen();
-var request = require('supertest');
+'use strict';
+const app = require('./app');
+const server = app.listen();
+const request = require('supertest');
 
 /**
  * middleware

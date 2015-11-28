@@ -1,13 +1,12 @@
 'use strict';
 
-var koa = require('koa');
-var request = require('supertest');
-var Route = require('../lib/route');
-var assert = require('assert');
-var koa = require('koa');
+const koa = require('koa');
+const request = require('supertest');
+const Route = require('../lib/route');
+const assert = require('assert');
 
 describe('Route', function() {
-  var app;
+  let app;
 
   beforeEach(function() {
     app = koa();
@@ -18,10 +17,10 @@ describe('Route', function() {
   });
 
   it('play with route', function(done) {
-    var r = Route('/foo');
+    const r = Route('/foo');
 
     app.use(function*(next) {
-      var ctx = this;
+      const ctx = this;
       yield r.dispatch(next, ctx);
     });
 
@@ -34,11 +33,11 @@ describe('Route', function() {
 
   it('one route', function(done) {
 
-    var fn = function*() {
+    const fn = function*() {
       this.body = this.method;
     };
 
-    var r = Route('/foo')
+    const r = Route('/foo')
       .get(fn)
       .post(fn)
       .put(fn);
