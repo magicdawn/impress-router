@@ -289,8 +289,22 @@ describe('Router', function() {
         .get('/hello')
         .end(function(err, res) {
           res.text.should.equal('foobar');
-          done();
+          done(err);
         });
+    });
+
+    it('multi route, the first wins', function(done) {
+      router.get('/hello', function*() {
+        this.body = 'foo';
+      });
+
+      router.get('/hello', function*() {
+        this.body = 'bar';
+      });
+
+      request(app.listen())
+        .get('/hello')
+        .expect(200, 'foo', done);
     });
   });
 });
