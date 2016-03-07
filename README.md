@@ -42,7 +42,7 @@ var app = require('koa')();
 var router = require('impress-router')();
 app.use(router);
 
-router.use('/public',function (next){
+router.use('/public',function* (next){
 
   // when requesting `/public/js/foo.js`
   this.path; // `/js/foo.js`
@@ -61,9 +61,9 @@ var app = require('koa')();
 var router = require('impress-router')();
 app.use(router);
 
-router.use(function * (next){
+router.use(function* (next){
   this.user = { name: 'foo', age: 18 };
-  yield* next;
+  yield next;
 })
 ```
 
@@ -102,11 +102,11 @@ app.use(router);
 var userRouter = Router();
 router.use('/user/:uid', userRouter);
 
-userRouter.get('/get_:field', function * () {
+userRouter.get('/get_:field', function* () {
   this.body = {
     uid: this.params.uid,
     field: this.params.field
-  }
+  };
 });
 
 // GET /user/magicdawn/get_name
@@ -118,4 +118,4 @@ userRouter.get('/get_:field', function * () {
 koa-router is not handy as expected, so ...
 
 ## License
-MIT &copy; 2015 Magicdawn http://magicdawn.mit-license.org
+the MIT License http://magicdawn.mit-license.org
