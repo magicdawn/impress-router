@@ -5,7 +5,6 @@
   "main": "lib/router.js",
   "dependencies": {
     "debug": "^2.2.0",
-    "koa": "^1.2.0",
     "koa-compose": "^2.4.0",
     "lodash": "^4.6.1",
     "methods": "^1.1.2",
@@ -15,7 +14,7 @@
     "coveralls": "^2.11.8",
     "eslint": "^2.3.0",
     "istanbul-harmony": "^0.3.16",
-    "koa": "^0.21.0",
+    "koa": "^1.2.0",
     "mocha": "^2.4.5",
     "should": "^8.2.2",
     "supertest": "^1.2.0"
