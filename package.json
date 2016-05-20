@@ -8,7 +8,7 @@
     "koa-compose": "^2.4.0",
     "lodash": "^4.6.1",
     "methods": "^1.1.2",
-    "path-to-regexp": "^1.2.1"
+    "path-to-regexp": "1.2.x"
   },
   "devDependencies": {
     "coveralls": "^2.11.8",
