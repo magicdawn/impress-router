@@ -1,12 +1,12 @@
 # impress-router
 port Express router to koa
 
-[![Build Status](https://travis-ci.org/magicdawn/impress-router.svg)](https://travis-ci.org/magicdawn/impress-router)
-[![Coverage Status](https://coveralls.io/repos/magicdawn/impress-router/badge.svg?branch=master)](https://coveralls.io/github/magicdawn/impress-router?branch=master)
-[![node version](https://img.shields.io/node/v/impress-router.svg)](https://www.npmjs.com/package/impress-router)
-[![npm version](https://img.shields.io/npm/v/impress-router.svg)](https://www.npmjs.com/package/impress-router)
-[![npm downloads](https://img.shields.io/npm/dm/impress-router.svg)](https://www.npmjs.com/package/impress-router)
-[![npm license](https://img.shields.io/npm/l/impress-router.svg)](http://magicdawn.mit-license.org)
+[![Build Status](https://img.shields.io/travis/magicdawn/express-modern.svg?style=flat-square)](https://travis-ci.org/magicdawn/impress-router)
+[![Coverage Status](https://img.shields.io/coveralls/magicdawn/impress-router.svg?style=flat-square)](https://coveralls.io/github/magicdawn/impress-router?branch=master)
+[![node version](https://img.shields.io/node/v/impress-router.svg?style=flat-square)](https://www.npmjs.com/package/impress-router)
+[![npm version](https://img.shields.io/npm/v/impress-router.svg?style=flat-square)](https://www.npmjs.com/package/impress-router)
+[![npm downloads](https://img.shields.io/npm/dm/impress-router.svg?style=flat-square)](https://www.npmjs.com/package/impress-router)
+[![npm license](https://img.shields.io/npm/l/impress-router.svg?style=flat-square)](http://magicdawn.mit-license.org)
 
 ## Install
 ```sh
