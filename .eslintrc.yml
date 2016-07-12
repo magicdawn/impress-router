@@ -5,13 +5,14 @@
 root: true
 
 # globals
-globals:
-  Promise: true
+# globals:
+#   Promise: true
 
 # code env
 env:
   node: true
   mocha: true
+  es6: true
 
 # rules
 rules:
