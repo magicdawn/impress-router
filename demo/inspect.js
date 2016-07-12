@@ -44,7 +44,7 @@ request(server)
  * nested params
  */
 request(server)
-  .get('/user/magicdawn/detail/age')
+  .get('/user/magicdawn/age')
   .end(function(err, res) {
     console.log(res.body);
   });

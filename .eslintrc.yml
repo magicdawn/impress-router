@@ -4,6 +4,10 @@
 # root
 root: true
 
+# globals
+globals:
+  Promise: true
+
 # code env
 env:
   node: true
