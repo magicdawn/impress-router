@@ -10,6 +10,10 @@ port Express router to koa
 
 ## Install
 ```sh
+# koa@2
+npm i impress-router@next --save
+
+# for koa@1 support, see koa-v1 branch
 npm i impress-router --save
 ```
 
@@ -38,18 +42,18 @@ use middleware on some path, and you got `ctx.path` `ctx.basePath` `ctx.original
 just as Express's `req.baseUrl` / `req.originalUrl` does:
 
 ```js
-var app = require('koa')();
+var app = new (require('koa'))();
 var router = require('impress-router')();
 app.use(router);
 
-router.use('/public',function* (next){
+router.use('/public', (ctx, next){
 
   // when requesting `/public/js/foo.js`
-  this.path; // `/js/foo.js`
-  this.basePath; // `/public`
-  this.originalPath; // `/public/js/foo.js`
+  ctx.path; // `/js/foo.js`
+  ctx.basePath; // `/public`
+  ctx.originalPath; // `/public/js/foo.js`
 
-  yield next;
+  return next();
 });
 
 ```
@@ -57,13 +61,13 @@ router.use('/public',function* (next){
 Em, use on all request:
 
 ```js
-var app = require('koa')();
+var app = new (require('koa'))();
 var router = require('impress-router')();
 app.use(router);
 
-router.use(function* (next){
-  this.user = { name: 'foo', age: 18 };
-  yield next;
+router.use((ctx, next) => {
+  ctx.user = { name: 'foo', age: 18 };
+  return next();
 })
 ```
 
@@ -72,29 +76,29 @@ router.use(function* (next){
 #### Features
 
 - `GET POST ...` methods exposed by `methods` module are supported
-- all supported, `router.all(path,fn)`
+- `all` supported, `router.all(path,fn)`
 - auto `OPTIONS` response
 - auto `HEAD` response
 
 
 ```js
-var app = require('koa')();
+var app = new (require('koa'))();
 var router = require('impress-router')();
 app.use(router);
 
-router.get('/hello',function * (){
-  this.body = 'hello';
+router.get('/hello', ctx => {
+  ctx.body = 'hello';
 });
 
-router.all('/hello',function * (){
-  this.body = 'hello';
+router.all('/hello', ctx => {
+  ctx.body = 'hello';
 });
 ```
 
 #### params
 
 ```js
-var app = require('koa')();
+var app = new (require('koa'))();
 var Router = require('impress-router');
 var router = Router();
 app.use(router);
@@ -102,20 +106,20 @@ app.use(router);
 var userRouter = Router();
 router.use('/user/:uid', userRouter);
 
-userRouter.get('/get_:field', function* () {
-  this.body = {
+userRouter.get('/:field', ctx => {
+  ctx.body = {
     uid: this.params.uid,
     field: this.params.field
   };
 });
 
-// GET /user/magicdawn/get_name
+// GET /user/magicdawn/name
 // =>
 // { uid: 'magicdawn', field: 'name' }
 ```
 
 ## Why
-koa-router is not handy as expected, so ...
+`require('express').Router` is very nice, so port it to koa
 
 ## License
 the MIT License http://magicdawn.mit-license.org
