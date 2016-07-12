@@ -1,6 +1,6 @@
 'use strict';
 
-const koa = require('koa');
+const Koa = require('koa');
 const request = require('supertest');
 const Route = require('../lib/route');
 const assert = require('assert');
@@ -9,7 +9,7 @@ describe('Route', function() {
   let app;
 
   beforeEach(function() {
-    app = koa();
+    app = new Koa();
   });
 
   it('construct without new', function() {
@@ -19,9 +19,8 @@ describe('Route', function() {
   it('play with route', function(done) {
     const r = Route('/foo');
 
-    app.use(function*(next) {
-      const ctx = this;
-      yield r.dispatch(next, ctx);
+    app.use((ctx, next) => {
+      return r.dispatch(ctx, next);
     });
 
     // r.stack.length = 0
@@ -32,9 +31,8 @@ describe('Route', function() {
   });
 
   it('one route', function(done) {
-
-    const fn = function*() {
-      this.body = this.method;
+    const fn = (ctx) => {
+      ctx.body = ctx.method;
     };
 
     const r = Route('/foo')
@@ -42,12 +40,11 @@ describe('Route', function() {
       .post(fn)
       .put(fn);
 
-    app.use(function*(next) {
-      yield r.dispatch(next, this);
+    app.use((ctx, next) => {
+      return r.dispatch(ctx, next);
     });
-
     app = app.callback();
-
+    
     request(app)
       .delete('/foo')
       .expect(404, done);

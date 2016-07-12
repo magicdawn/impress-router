@@ -1,6 +1,6 @@
 'use strict';
 
-const koa = require('koa');
+const Koa = require('koa');
 const request = require('supertest');
 const Router = require('../lib/router');
 const assert = require('assert');
@@ -11,7 +11,7 @@ describe('Router', function() {
   let router;
 
   beforeEach(function() {
-    app = koa();
+    app = new Koa();
     router = Router();
     app.use(router);
   });
@@ -19,11 +19,9 @@ describe('Router', function() {
   it('ok with/without new', function() {
     let router = new Router();
     (typeof router).should.equal('function');
-    router.constructor.name.should.equal('GeneratorFunction');
 
     router = Router();
     (typeof router).should.equal('function');
-    router.constructor.name.should.equal('GeneratorFunction');
   });
 
   it('nested router', function(done) {
@@ -35,11 +33,11 @@ describe('Router', function() {
     routerA.use('/b', routerB);
     routerB.use('/c', routerC);
 
-    routerC.get('/', function*() {
-      this.body = {
-        base: this.basePath,
-        original: this.originalPath,
-        path: this.path
+    routerC.get('/', function(ctx, next) {
+      ctx.body = {
+        base: ctx.basePath,
+        original: ctx.originalPath,
+        path: ctx.path
       };
     });
 
@@ -63,10 +61,10 @@ describe('Router', function() {
       const userRouter = Router();
       router.use('/user/:uid', userRouter);
 
-      userRouter.get('/get_:field', function*() {
-        this.body = {
-          uid: this.params.uid,
-          field: this.params.field
+      userRouter.get('/get_:field', function(ctx, next) {
+        ctx.body = {
+          uid: ctx.params.uid,
+          field: ctx.params.field
         };
       });
 
@@ -89,15 +87,15 @@ describe('Router', function() {
       });
       router.use('/user/:uid', userRouter);
 
-      userRouter.get('/get_:field', function*() {
-        this.body = {
-          uid: this.params.uid,
-          field: this.params.field
+      userRouter.get('/:field', function(ctx, next) {
+        ctx.body = {
+          uid: ctx.params.uid,
+          field: ctx.params.field
         };
       });
 
       request(app.listen())
-        .get('/user/magicdawn/get_name')
+        .get('/user/magicdawn/name')
         .end(function(err, res) {
           const j = res.body;
 
@@ -116,11 +114,11 @@ describe('Router', function() {
   describe('middleware', function() {
     it('use a middleware on a /path', function(done) {
 
-      router.use('/public', function*() {
-        this.body = {
-          originalPath: this.originalPath,
-          basePath: this.basePath,
-          path: this.path
+      router.use('/public', (ctx, next) => {
+        ctx.body = {
+          originalPath: ctx.originalPath,
+          basePath: ctx.basePath,
+          path: ctx.path
         };
       });
 
@@ -140,8 +138,9 @@ describe('Router', function() {
     });
 
     it('fast_slash middleware', function(done) {
-      router.use(function*() {
-        this.body = 'awesome site';
+      router.use((ctx, next) => {
+        ctx.body = 'awesome site';
+        return next();
       });
 
       request(app.listen())
@@ -152,11 +151,11 @@ describe('Router', function() {
         });
     });
 
-    it('throws when not using GeneratorFunction', function() {
-      assert.throws(function() {
-        router.use(function() {});
-      });
-    });
+    // it('throws when not using GeneratorFunction', function() {
+    //   assert.throws(function() {
+    //     router.use(function() {});
+    //   });
+    // });
 
     it('throws when miss function', function() {
       assert.throws(function() {
@@ -165,11 +164,11 @@ describe('Router', function() {
     });
 
     it('use multiple middlewares once', function(done) {
-      router.use(function*(next) {
-        this.body = 'a';
-        yield next;
-      }, function*() {
-        this.body += 'b';
+      router.use((ctx, next) => {
+        ctx.body = 'a';
+        return next();
+      }, (ctx, next) => {
+        ctx.body += 'b';
       });
 
       request(app.listen())
@@ -187,8 +186,8 @@ describe('Router', function() {
   describe('route', function() {
 
     it('have route handle correctly', function(done) {
-      const fn = function*() {
-        this.body = this.path;
+      const fn = (ctx, next) => {
+        ctx.body = ctx.path;
       };
 
       router
@@ -204,8 +203,8 @@ describe('Router', function() {
     });
 
     it('simple params', function(done) {
-      router.get('/user/:id', function*() {
-        this.body = this.params.id;
+      router.get('/user/:id', (ctx, next) => {
+        ctx.body = ctx.params.id;
       });
 
       request(app.listen())
@@ -217,8 +216,8 @@ describe('Router', function() {
     });
 
     it('`all` method support', function(done) {
-      router.all('/hello', function*() {
-        this.body = 'world';
+      router.all('/hello', (ctx) => {
+        ctx.body = 'world';
       });
 
       app = app.callback();
@@ -231,26 +230,21 @@ describe('Router', function() {
     });
 
     it('automatic OPTIONS response', function(done) {
-      router.get('/foo', function*() {
-        this.body = 'foo';
-      });
-
-      router.post('/foo', function*() {
-        this.body = 'bar';
-      });
+      router
+        .get('/foo', ctx => ctx.body = 'foo')
+        .post('/foo', ctx => ctx.body = 'bar');
 
       request(app.listen())
         .options('/foo')
         .end(function(err, res) {
-
           res.headers['allow'].should.match(/GET,POST/);
           done();
         });
     });
 
     it('automatic HEAD response', function(done) {
-      router.get('/foo', function*() {
-        this.body = 'hello world';
+      router.get('/foo', (ctx, next) => {
+        ctx.body = 'hello world';
       });
 
       request(app.listen())
@@ -265,11 +259,11 @@ describe('Router', function() {
         });
     });
 
-    it('throws when not using GeneratorFunction', function() {
-      assert.throws(function() {
-        router.get('/', function() {});
-      });
-    });
+    // it('throws when not using GeneratorFunction', function() {
+    //   assert.throws(function() {
+    //     router.get('/', function() {});
+    //   });
+    // });
 
     it('throws when miss function', function() {
       assert.throws(function() {
@@ -278,11 +272,12 @@ describe('Router', function() {
     });
 
     it('use multiple handler once', function(done) {
-      router.get('/hello', function*(next) {
-        this.body = 'foo';
-        yield next;
-      }, function*() {
-        this.body += 'bar';
+      router.get('/hello', function(ctx, next) {
+        ctx.body = 'foo';
+        return next();
+      }, function(ctx, next) {
+        ctx.body += 'bar';
+        return next();
       });
 
       request(app.listen())
@@ -294,12 +289,12 @@ describe('Router', function() {
     });
 
     it('multi route, the first wins', function(done) {
-      router.get('/hello', function*() {
-        this.body = 'foo';
+      router.get('/hello', (ctx) => {
+        ctx.body = 'foo';
       });
 
-      router.get('/hello', function*() {
-        this.body = 'bar';
+      router.get('/hello', (ctx) => {
+        ctx.body = 'bar';
       });
 
       request(app.listen())

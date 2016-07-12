@@ -10,8 +10,8 @@ describe('Layer', function() {
   it('construct without new', function() {
     const l = Layer('/foo', {
       end: true
-    }, function*() {
-      this.body = 'foo';
+    }, (ctx) => {
+      ctx.body = 'foo';
     });
 
     l.should.be.ok;
@@ -20,8 +20,8 @@ describe('Layer', function() {
   it('#match(path) return false when path is empty', function() {
     const l = Layer('/foo', {
       end: true
-    }, function*() {
-      this.body = 'foo';
+    }, (ctx, next) => {
+      ctx.body = 'foo';
     });
 
     l.match(null).should.equal(false);
