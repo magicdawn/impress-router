@@ -2,7 +2,7 @@
 const app = module.exports = new(require('koa'))();
 const Router = require('../');
 const co = require('co');
-const router = Router();
+const router = new Router();
 const request = require('supertest');
 app.use(router);
 
@@ -32,9 +32,9 @@ const fn = co.wrap(function*(ctx, next) {
   yield next();
 });
 
-const routerA = Router();
-const routerB = Router();
-const routerC = Router();
+const routerA = new Router();
+const routerB = new Router();
+const routerC = new Router();
 
 router.use('/a', fn, routerA);
 routerA.use('/b', fn, routerB);
@@ -60,7 +60,7 @@ router.get('/user/:id/detail', function(ctx, next) {
 /**
  * nested param
  */
-const routerUser = Router({
+const routerUser = new Router({
   mergeParams: true
 });
 router.use('/user/:id', routerUser);
