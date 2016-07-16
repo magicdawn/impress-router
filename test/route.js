@@ -13,11 +13,11 @@ describe('Route', function() {
   });
 
   it('construct without new', function() {
-    Route('/').should.be.ok;
+    (new Route('/')).should.be.ok;
   });
 
   it('play with route', function(done) {
-    const r = Route('/foo');
+    const r = new Route('/foo');
 
     app.use((ctx, next) => {
       return r.dispatch(ctx, next);
@@ -35,7 +35,7 @@ describe('Route', function() {
       ctx.body = ctx.method;
     };
 
-    const r = Route('/foo')
+    const r = (new Route('/foo'))
       .get(fn)
       .post(fn)
       .put(fn);
@@ -44,7 +44,7 @@ describe('Route', function() {
       return r.dispatch(ctx, next);
     });
     app = app.callback();
-    
+
     request(app)
       .delete('/foo')
       .expect(404, done);

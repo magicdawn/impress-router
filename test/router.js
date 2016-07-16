@@ -12,22 +12,19 @@ describe('Router', function() {
 
   beforeEach(function() {
     app = new Koa();
-    router = Router();
+    router = new Router();
     app.use(router);
   });
 
-  it('ok with/without new', function() {
+  it('ok with new', function() {
     let router = new Router();
-    (typeof router).should.equal('function');
-
-    router = Router();
     (typeof router).should.equal('function');
   });
 
   it('nested router', function(done) {
-    const routerA = Router();
-    const routerB = Router();
-    const routerC = Router();
+    const routerA = new Router();
+    const routerB = new Router();
+    const routerC = new Router();
 
     router.use('/a', routerA);
     routerA.use('/b', routerB);
@@ -58,7 +55,7 @@ describe('Router', function() {
   describe('params#', function() {
 
     it('default `mergeParams` = true', function(done) {
-      const userRouter = Router();
+      const userRouter = new Router();
       router.use('/user/:uid', userRouter);
 
       userRouter.get('/get_:field', function(ctx, next) {
@@ -82,7 +79,7 @@ describe('Router', function() {
     });
 
     it('set `mergeParams` to false', function(done) {
-      const userRouter = Router({
+      const userRouter = new Router({
         mergeParams: false
       });
       router.use('/user/:uid', userRouter);
