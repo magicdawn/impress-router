@@ -1,5 +1,8 @@
 # Changelog
 
+## v1.1.0 2016-07-16
+- use es6 class, all exports must invoked with `new`
+
 ## v1.0.0 2016-07-12
 - add koa@2 support, use `koa-v1` track koa@1
 
