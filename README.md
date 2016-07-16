@@ -1,5 +1,5 @@
 # impress-router
-port Express router to koa
+port express router to koa
 
 [![Build Status](https://img.shields.io/travis/magicdawn/express-modern.svg?style=flat-square)](https://travis-ci.org/magicdawn/impress-router)
 [![Coverage Status](https://img.shields.io/coveralls/magicdawn/impress-router.svg?style=flat-square)](https://coveralls.io/github/magicdawn/impress-router?branch=master)
@@ -23,17 +23,17 @@ npm i impress-router --save
 
 ```js
 var Router = require('impress-router');
-var router = Router();
+var router = new Router();
 app.use(router);
 ```
 
-`new Router(options)`, or with out new `Router(options)`
+`new Router(options)`
 
 Options
 
-- goNext: default true, whether go down stream
-- strict,sensitive: these are [path-to-regexp](https://github.com/pillarjs/path-to-regexp) options
-- mergeParams: default true, whether merge params when nested router
+- `goNext` : default true, whether go down stream
+- `strict` & `sensitive` : these are [path-to-regexp](https://github.com/pillarjs/path-to-regexp) options
+- `mergeParams` : default true, whether merge params when nested router
 
 
 ### middleware
@@ -43,7 +43,7 @@ just as Express's `req.baseUrl` / `req.originalUrl` does:
 
 ```js
 var app = new (require('koa'))();
-var router = require('impress-router')();
+var router = new (require('impress-router'))();
 app.use(router);
 
 router.use('/public', (ctx, next){
@@ -58,7 +58,7 @@ router.use('/public', (ctx, next){
 
 ```
 
-Em, use on all request:
+use middleware on all requests:
 
 ```js
 var app = new (require('koa'))();
@@ -76,22 +76,21 @@ router.use((ctx, next) => {
 #### Features
 
 - `GET POST ...` methods exposed by `methods` module are supported
-- `all` supported, `router.all(path,fn)`
-- auto `OPTIONS` response
-- auto `HEAD` response
+- `all` method supported, via `router.all(path,fn)`
+- `OPTIONS` method supported, automatic build the `Allow` response
 
 
 ```js
 var app = new (require('koa'))();
-var router = require('impress-router')();
+var router = new (require('impress-router'))();
 app.use(router);
 
 router.get('/hello', ctx => {
-  ctx.body = 'hello';
+  ctx.body = 'world';
 });
 
-router.all('/hello', ctx => {
-  ctx.body = 'hello';
+router.all('/foo', ctx => {
+  ctx.body = 'bar';
 });
 ```
 
@@ -100,10 +99,10 @@ router.all('/hello', ctx => {
 ```js
 var app = new (require('koa'))();
 var Router = require('impress-router');
-var router = Router();
+var router = new Router();
 app.use(router);
 
-var userRouter = Router();
+var userRouter = new Router();
 router.use('/user/:uid', userRouter);
 
 userRouter.get('/:field', ctx => {
@@ -119,7 +118,7 @@ userRouter.get('/:field', ctx => {
 ```
 
 ## Why
-`require('express').Router` is very nice, so port it to koa
+`require('express').Router` is very nice, so I'm porting it to koa
 
 ## License
 the MIT License http://magicdawn.mit-license.org
