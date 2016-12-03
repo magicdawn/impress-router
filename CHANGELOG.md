@@ -1,5 +1,8 @@
 # Changelog
 
+## v1.2.1 2016-12-03
+- update `.eslintrc.yml` & fix code style
+
 ## v1.2.0 2016-12-03
 - add `_.flattenDeep` to `router.use` & `router.get` etc
 - get 100% code coverage
