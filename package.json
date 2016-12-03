@@ -12,7 +12,7 @@
     "path-to-regexp": "1.2.x"
   },
   "devDependencies": {
-    "coveralls": "^2.11.15",
+    "codecov": "^1.0.1",
     "eslint": "^3.11.1",
     "istanbul": "^0.4.5",
     "koa": "^2.0.0",
@@ -23,7 +23,8 @@
   },
   "scripts": {
     "test": "mocha",
-    "test-cover": "istanbul cover _mocha -- -u exports"
+    "test-cover": "istanbul cover _mocha -- -u exports",
+    "report-cover": "codecov"
   },
   "repository": {
     "type": "git",
