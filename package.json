@@ -5,21 +5,21 @@
   "main": "lib/router.js",
   "dependencies": {
     "co": "^4.6.0",
-    "debug": "^2.2.0",
-    "koa-compose": "^3.1.0",
-    "lodash": "^4.13.1",
+    "debug": "^2.3.3",
+    "koa-compose": "^3.2.1",
+    "lodash": "^4.17.2",
     "methods": "^1.1.2",
     "path-to-regexp": "1.2.x"
   },
   "devDependencies": {
-    "coveralls": "^2.11.8",
-    "eslint": "^2.3.0",
-    "istanbul-harmony": "^0.3.16",
+    "coveralls": "^2.11.15",
+    "eslint": "^3.11.1",
+    "istanbul": "^0.4.5",
     "koa": "^2.0.0",
     "koa-static": "^3.0.0",
-    "mocha": "^2.5.3",
-    "should": "^8.2.2",
-    "supertest": "^1.2.0"
+    "mocha": "^3.2.0",
+    "should": "^11.1.1",
+    "supertest": "^2.0.1"
   },
   "scripts": {
     "test": "mocha",
