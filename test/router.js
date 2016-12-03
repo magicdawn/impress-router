@@ -148,12 +148,6 @@ describe('Router', function() {
         });
     });
 
-    // it('throws when not using GeneratorFunction', function() {
-    //   assert.throws(function() {
-    //     router.use(function() {});
-    //   });
-    // });
-
     it('throws when miss function', function() {
       assert.throws(function() {
         router.use('/');
@@ -172,6 +166,23 @@ describe('Router', function() {
         .get('/')
         .end(function(err, res) {
           res.text.should.equal('ab');
+          done();
+        });
+    });
+
+    it('use multiple middlewares nested', function(done) {
+      router.use(
+        [
+          (ctx, next) => (ctx.body = 'a', next()),
+          (ctx, next) => (ctx.body += 'b', next()),
+        ],
+        ctx => ctx.body += 'c'
+      );
+
+      request(app.listen())
+        .get('/')
+        .end(function(err, res) {
+          res.text.should.equal('abc');
           done();
         });
     });
@@ -256,12 +267,6 @@ describe('Router', function() {
         });
     });
 
-    // it('throws when not using GeneratorFunction', function() {
-    //   assert.throws(function() {
-    //     router.get('/', function() {});
-    //   });
-    // });
-
     it('throws when miss function', function() {
       assert.throws(function() {
         router.get('/');
@@ -281,6 +286,23 @@ describe('Router', function() {
         .get('/hello')
         .end(function(err, res) {
           res.text.should.equal('foobar');
+          done(err);
+        });
+    });
+
+    it('use multiple handler nested', function(done) {
+      router.get(
+        '/hello', [
+          (ctx, next) => (ctx.body = 'foo', next()),
+          (ctx, next) => (ctx.body += 'bar', next())
+        ],
+        ctx => ctx.body += 'baz'
+      );
+
+      request(app.listen())
+        .get('/hello')
+        .end(function(err, res) {
+          res.text.should.equal('foobarbaz');
           done(err);
         });
     });
