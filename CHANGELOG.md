@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.3.0 2017-01-09
+- upgrade to path-to-regexp@1.7.0
+- add `+`/`?` params test
+
 ## v1.2.1 2016-12-03
 - update `.eslintrc.yml` & fix code style
 
