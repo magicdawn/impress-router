@@ -9,7 +9,7 @@
     "koa-compose": "^3.2.1",
     "lodash": "^4.17.4",
     "methods": "^1.1.2",
-    "path-to-regexp": "^1.7.0"
+    "path-to-regexp": "1.7.0"
   },
   "devDependencies": {
     "codecov": "^1.0.1",
