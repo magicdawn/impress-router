@@ -32,6 +32,8 @@ app.use(router);
 Options
 
 - `strict` & `sensitive` : these are [path-to-regexp](https://github.com/pillarjs/path-to-regexp) options
+  - `strict`: default false, when false the trailing `/` is optional
+  - `sensitive`: default false, case sensitive
 - `mergeParams` : default true, whether merge params when nested router
 
 
