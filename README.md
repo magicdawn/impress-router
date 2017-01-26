@@ -31,7 +31,6 @@ app.use(router);
 
 Options
 
-- `goNext` : default true, whether go down stream
 - `strict` & `sensitive` : these are [path-to-regexp](https://github.com/pillarjs/path-to-regexp) options
 - `mergeParams` : default true, whether merge params when nested router
 
