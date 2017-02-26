@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.4.1 2017-02-26
+
+- drop support to node < 7.6.0
+- use `async/await` instead of `co`, in lib & test
+- rm `next` publish tag
+
 ## v1.4.0 2017-01-26
 
 - rm `goNext` option, and wrap the koa app level next in a router inner `next`,
