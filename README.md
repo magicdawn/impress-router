@@ -64,7 +64,7 @@ use middleware on all requests:
 
 ```js
 const app = new (require('koa'))();
-const router = require('impress-router')();
+const router = new require('impress-router')();
 app.use(router);
 
 router.use((ctx, next) => {
