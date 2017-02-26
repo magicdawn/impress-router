@@ -9,12 +9,13 @@ port express router to koa
 [![npm license](https://img.shields.io/npm/l/impress-router.svg?style=flat-square)](http://magicdawn.mit-license.org)
 
 ## Install
+
 ```sh
 # koa@2
-npm i impress-router@next --save
-
-# for koa@1 support, see koa-v1 branch
 npm i impress-router --save
+
+# koa@1, see koa-v1 branch
+npm i impress-router@0 --save
 ```
 
 ## API
