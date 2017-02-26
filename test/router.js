@@ -5,7 +5,6 @@ const request = require('supertest')
 const Router = require('../lib/router')
 const assert = require('assert')
 const METHODS = require('methods')
-const co = require('co')
 const should = require('should')
 
 describe('Router', function() {
@@ -105,54 +104,54 @@ describe('Router', function() {
         })
     })
 
-    it('params with ? & auto index', co.wrap(function*() {
+    it('params with ? & auto index', async () => {
       router.get('/(apple-)?icon-:num(\\d+).png', (ctx, next) => {
         ctx.body = ctx.params
       })
 
       let res
-      res = yield request(app.callback()).get('/icon-76.png')
+      res = await request(app.callback()).get('/icon-76.png')
       res.body.num.should.equal('76')
       should.not.exists(res.body[0])
 
-      res = yield request(app.callback()).get('/apple-icon-76.png')
+      res = await request(app.callback()).get('/apple-icon-76.png')
       res.body.num.should.equal('76')
       res.body[0].should.equal('apple-')
-    }))
+    })
 
-    it('params with ?', co.wrap(function*() {
+    it('params with ?', async () => {
       router.get('/:apple(apple-)?icon-:num(\\d+).png', (ctx, next) => {
         ctx.body = ctx.params
       })
 
       let res
-      res = yield request(app.callback()).get('/icon-76.png')
+      res = await request(app.callback()).get('/icon-76.png')
       res.body.num.should.equal('76')
       should.not.exists(res.body.apple)
 
-      res = yield request(app.callback()).get('/apple-icon-76.png')
+      res = await request(app.callback()).get('/apple-icon-76.png')
       res.body.num.should.equal('76')
       res.body.apple.should.equal('apple-')
-    }))
+    })
 
-    it('params with +', co.wrap(function*() {
+    it('params with +', async () => {
       router.get('/public/:filename+', (ctx, next) => {
         ctx.body = ctx.params.filename
       })
       let res
 
-      res = yield request(app.callback()).get('/public/foo')
+      res = await request(app.callback()).get('/public/foo')
       res.text.should.equal('foo')
 
-      res = yield request(app.callback()).get('/public/foo.png')
+      res = await request(app.callback()).get('/public/foo.png')
       res.text.should.equal('foo.png')
 
-      res = yield request(app.callback()).get('/public/foo/bar')
+      res = await request(app.callback()).get('/public/foo/bar')
       res.text.should.equal('foo/bar')
 
-      res = yield request(app.callback()).get('/public/foo/bar.jpg')
+      res = await request(app.callback()).get('/public/foo/bar.jpg')
       res.text.should.equal('foo/bar.jpg')
-    }))
+    })
   })
 
 

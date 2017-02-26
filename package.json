@@ -4,7 +4,6 @@
   "description": "port Express router to koa",
   "main": "lib/router.js",
   "dependencies": {
-    "co": "^4.6.0",
     "debug": "^2.6.0",
     "koa-compose": "^3.2.1",
     "lodash": "^4.17.4",
@@ -14,8 +13,8 @@
   "devDependencies": {
     "codecov": "^1.0.1",
     "eslint": "^3.13.0",
-    "istanbul": "^0.4.5",
-    "koa": "^2.0.0",
+    "istanbul": "^1.1.0-alpha.1",
+    "koa": "^2.0.1",
     "koa-static": "^3.0.0",
     "mocha": "^3.2.0",
     "should": "^11.1.2",
@@ -48,7 +47,7 @@
   },
   "homepage": "https://github.com/magicdawn/impress-router",
   "engines": {
-    "node": ">=4"
+    "node": ">=7.6.0"
   },
   "publishConfig": {
     "tag": "next"
