@@ -48,8 +48,5 @@
   "homepage": "https://github.com/magicdawn/impress-router",
   "engines": {
     "node": ">=7.6.0"
-  },
-  "publishConfig": {
-    "tag": "next"
   }
 }
