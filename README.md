@@ -23,8 +23,8 @@ npm i impress-router@0 --save
 ### basic
 
 ```js
-var Router = require('impress-router');
-var router = new Router();
+const Router = require('impress-router');
+const router = new Router();
 app.use(router);
 ```
 
@@ -44,8 +44,8 @@ use middleware on some path, and you got `ctx.path` `ctx.basePath` `ctx.original
 just as Express's `req.baseUrl` / `req.originalUrl` does:
 
 ```js
-var app = new (require('koa'))();
-var router = new (require('impress-router'))();
+const app = new (require('koa'))();
+const router = new (require('impress-router'))();
 app.use(router);
 
 router.use('/public', (ctx, next){
@@ -63,8 +63,8 @@ router.use('/public', (ctx, next){
 use middleware on all requests:
 
 ```js
-var app = new (require('koa'))();
-var router = require('impress-router')();
+const app = new (require('koa'))();
+const router = require('impress-router')();
 app.use(router);
 
 router.use((ctx, next) => {
@@ -83,8 +83,8 @@ router.use((ctx, next) => {
 
 
 ```js
-var app = new (require('koa'))();
-var router = new (require('impress-router'))();
+const app = new (require('koa'))();
+const router = new (require('impress-router'))();
 app.use(router);
 
 router.get('/hello', ctx => {
@@ -99,12 +99,12 @@ router.all('/foo', ctx => {
 #### params
 
 ```js
-var app = new (require('koa'))();
-var Router = require('impress-router');
-var router = new Router();
+const app = new (require('koa'))();
+const Router = require('impress-router');
+const router = new Router();
 app.use(router);
 
-var userRouter = new Router();
+const userRouter = new Router();
 router.use('/user/:uid', userRouter);
 
 userRouter.get('/:field', ctx => {
