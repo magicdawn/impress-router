@@ -1,4 +1,6 @@
 # impress-router
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/magicdawn/impress-router.svg)](https://greenkeeper.io/)
 port express router to koa
 
 [![Build Status](https://img.shields.io/travis/magicdawn/express-modern.svg?style=flat-square)](https://travis-ci.org/magicdawn/impress-router)
