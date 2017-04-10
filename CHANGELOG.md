@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.5.0 2017-04-10
+
+- add `useThis` option, use `this` instead of `ctx` like koa v1
+
 ## v1.4.1 2017-02-26
 
 - drop support to node < 7.6.0

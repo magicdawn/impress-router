@@ -38,6 +38,7 @@ Options
   - `strict`: default false, when false the trailing `/` is optional
   - `sensitive`: default false, case sensitive
 - `mergeParams` : default true, whether merge params when nested router
+- `useThis`: use `this` = `ctx`, like koa v1. defaults to true
 
 
 ### middleware
