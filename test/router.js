@@ -56,14 +56,14 @@ describe('Router', function() {
       const userRouter = new Router()
       router.use('/user/:uid', userRouter)
 
-      userRouter.get('/get_:field', function(ctx, next) {
+      userRouter.get('/:field', function(ctx, next) {
         ctx.body = {
           uid: ctx.params.uid,
           field: ctx.params.field
         }
       })
 
-      const res = await request(server).get('/user/magicdawn/get_name')
+      const res = await request(server).get('/user/magicdawn/name')
       const j = res.body
       // console.log(j);
 
