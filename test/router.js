@@ -50,8 +50,35 @@ describe('Router', function() {
     j.path.should.equal('/')
   })
 
-  describe('params#', function() {
+  describe('options - useThis', function() {
+    it('it works', async function() {
+      router.get('/hello/:name', function(ctx) {
+        this.should.equal(ctx)
+        this.body = 'Hello ' + this.params.name
+      })
 
+      const res = await request(server).get('/hello/tao')
+      res.text.should.equal('Hello tao')
+    })
+
+    it('can be disabled', async function() {
+      const app = new Koa()
+      const router = new Router({
+        useThis: false
+      })
+      app.use(router)
+      const server = app.callback()
+
+      router.get('/hello', function(ctx) {
+        ctx.should.not.equal(this)
+        ctx.body = 'equals = ' + String(ctx === this)
+      })
+      const res = await request(server).get('/hello')
+      res.text.should.equal('equals = false')
+    })
+  })
+
+  describe('params#', function() {
     it('default `mergeParams` = true', async function() {
       const userRouter = new Router()
       router.use('/user/:uid', userRouter)
@@ -139,7 +166,6 @@ describe('Router', function() {
       res.text.should.equal('foo/bar.jpg')
     })
   })
-
 
   /**
    * middleware
