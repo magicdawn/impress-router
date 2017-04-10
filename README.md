@@ -1,6 +1,5 @@
 # impress-router
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/magicdawn/impress-router.svg)](https://greenkeeper.io/)
 port express router to koa
 
 [![Build Status](https://img.shields.io/travis/magicdawn/express-modern.svg?style=flat-square)](https://travis-ci.org/magicdawn/impress-router)
@@ -9,6 +8,7 @@ port express router to koa
 [![npm version](https://img.shields.io/npm/v/impress-router.svg?style=flat-square)](https://www.npmjs.com/package/impress-router)
 [![npm downloads](https://img.shields.io/npm/dm/impress-router.svg?style=flat-square)](https://www.npmjs.com/package/impress-router)
 [![npm license](https://img.shields.io/npm/l/impress-router.svg?style=flat-square)](http://magicdawn.mit-license.org)
+[![Greenkeeper badge](https://badges.greenkeeper.io/magicdawn/impress-router.svg)](https://greenkeeper.io/)
 
 ## Install
 
