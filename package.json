@@ -11,7 +11,7 @@
     "path-to-regexp": "2.0.0"
   },
   "devDependencies": {
-    "codecov": "^2.1.0",
+    "codecov": "^3.0.0",
     "eslint": "^4.1.0",
     "istanbul": "^1.1.0-alpha.1",
     "koa": "^2.0.1",
