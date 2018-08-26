@@ -25,7 +25,7 @@ describe('Route', function() {
 
     // r.stack.length = 0
 
-    request(app.listen())
+    request(app.callback())
       .get('/foo')
       .expect(404, done)
   })
