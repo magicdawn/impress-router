@@ -1,5 +1,3 @@
-'use strict'
-
 const Koa = require('koa')
 const request = require('supertest')
 const Route = require('../lib/route')
@@ -7,13 +5,12 @@ const assert = require('assert')
 
 describe('Route', function() {
   let app
-
   beforeEach(function() {
     app = new Koa()
   })
 
   it('construct without new', function() {
-    (new Route('/')).should.be.ok
+    new Route('/').should.be.ok
   })
 
   it('play with route', function(done) {
@@ -31,11 +28,11 @@ describe('Route', function() {
   })
 
   it('one route', function(done) {
-    const fn = (ctx) => {
+    const fn = ctx => {
       ctx.body = ctx.method
     }
 
-    const r = (new Route('/foo'))
+    const r = new Route('/foo')
       .get(fn)
       .post(fn)
       .put(fn)

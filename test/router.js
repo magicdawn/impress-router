@@ -1,5 +1,3 @@
-'use strict'
-
 const Koa = require('koa')
 const request = require('supertest')
 const Router = require('../lib/router')
@@ -11,7 +9,6 @@ describe('Router', function() {
   let app
   let router
   let server
-
   beforeEach(function() {
     app = new Koa()
     router = new Router()
@@ -20,8 +17,8 @@ describe('Router', function() {
   })
 
   it('ok with new', function() {
-    let router = new Router();
-    (typeof router).should.equal('function')
+    let router = new Router()
+    ;(typeof router).should.equal('function')
   })
 
   it('nested router', async function() {
@@ -37,7 +34,7 @@ describe('Router', function() {
       ctx.body = {
         base: ctx.basePath,
         original: ctx.originalPath,
-        path: ctx.path
+        path: ctx.path,
       }
     })
 
@@ -64,7 +61,7 @@ describe('Router', function() {
     it('can be disabled', async function() {
       const app = new Koa()
       const router = new Router({
-        useThis: false
+        useThis: false,
       })
       app.use(router)
       const server = app.callback()
@@ -86,7 +83,7 @@ describe('Router', function() {
       userRouter.get('/:field', function(ctx, next) {
         ctx.body = {
           uid: ctx.params.uid,
-          field: ctx.params.field
+          field: ctx.params.field,
         }
       })
 
@@ -100,14 +97,14 @@ describe('Router', function() {
 
     it('set `mergeParams` to false', async function() {
       const userRouter = new Router({
-        mergeParams: false
+        mergeParams: false,
       })
       router.use('/user/:uid', userRouter)
 
       userRouter.get('/:field', function(ctx, next) {
         ctx.body = {
           uid: ctx.params.uid,
-          field: ctx.params.field
+          field: ctx.params.field,
         }
       })
 
@@ -172,12 +169,11 @@ describe('Router', function() {
    */
   describe('middleware', function() {
     it('use a middleware on a /path', async function() {
-
       router.use('/public', (ctx, next) => {
         ctx.body = {
           originalPath: ctx.originalPath,
           basePath: ctx.basePath,
-          path: ctx.path
+          path: ctx.path,
         }
       })
 
@@ -207,12 +203,15 @@ describe('Router', function() {
     })
 
     it('use multiple middlewares once', async function() {
-      router.use((ctx, next) => {
-        ctx.body = 'a'
-        return next()
-      }, (ctx, next) => {
-        ctx.body += 'b'
-      })
+      router.use(
+        (ctx, next) => {
+          ctx.body = 'a'
+          return next()
+        },
+        (ctx, next) => {
+          ctx.body += 'b'
+        }
+      )
 
       const res = await request(server).get('/')
       res.text.should.equal('ab')
@@ -221,10 +220,10 @@ describe('Router', function() {
     it('use multiple middlewares nested', async function() {
       router.use(
         [
-          (ctx, next) => (ctx.body = 'a', next()),
-          (ctx, next) => (ctx.body += 'b', next()),
+          (ctx, next) => ((ctx.body = 'a'), next()),
+          (ctx, next) => ((ctx.body += 'b'), next()),
         ],
-        ctx => ctx.body += 'c'
+        ctx => (ctx.body += 'c')
       )
 
       const res = await request(server).get('/')
@@ -236,15 +235,12 @@ describe('Router', function() {
    * route
    */
   describe('route', function() {
-
     it('have route handle correctly', async function() {
       const fn = (ctx, next) => {
         ctx.body = ctx.path
       }
 
-      router
-        .get('/foo/bar', fn)
-        .get('/bar/foo', fn)
+      router.get('/foo/bar', fn).get('/bar/foo', fn)
 
       const res = await request(server).get('/foo/bar')
       res.text.should.equal('/foo/bar')
@@ -260,7 +256,7 @@ describe('Router', function() {
     })
 
     it('`all` method support', async function() {
-      router.all('/hello', (ctx) => {
+      router.all('/hello', ctx => {
         ctx.body = 'world'
       })
 
@@ -270,8 +266,8 @@ describe('Router', function() {
 
     it('automatic OPTIONS response', async function() {
       router
-        .get('/foo', ctx => ctx.body = 'foo')
-        .post('/foo', ctx => ctx.body = 'bar')
+        .get('/foo', ctx => (ctx.body = 'foo'))
+        .post('/foo', ctx => (ctx.body = 'bar'))
 
       const res = await request(server).options('/foo')
       res.headers['allow'].should.match(/GET,POST/)
@@ -295,13 +291,17 @@ describe('Router', function() {
     })
 
     it('use multiple handler once', async function() {
-      router.get('/hello', function(ctx, next) {
-        ctx.body = 'foo'
-        return next()
-      }, function(ctx, next) {
-        ctx.body += 'bar'
-        return next()
-      })
+      router.get(
+        '/hello',
+        function(ctx, next) {
+          ctx.body = 'foo'
+          return next()
+        },
+        function(ctx, next) {
+          ctx.body += 'bar'
+          return next()
+        }
+      )
 
       const res = await request(server).get('/hello')
       res.text.should.equal('foobar')
@@ -309,11 +309,12 @@ describe('Router', function() {
 
     it('use multiple handler nested', async function() {
       router.get(
-        '/hello', [
-          (ctx, next) => (ctx.body = 'foo', next()),
-          (ctx, next) => (ctx.body += 'bar', next())
+        '/hello',
+        [
+          (ctx, next) => ((ctx.body = 'foo'), next()),
+          (ctx, next) => ((ctx.body += 'bar'), next()),
         ],
-        ctx => ctx.body += 'baz'
+        ctx => (ctx.body += 'baz')
       )
 
       const res = await request(server).get('/hello')
@@ -321,11 +322,11 @@ describe('Router', function() {
     })
 
     it('multi route, the first wins', async function() {
-      router.get('/hello', (ctx) => {
+      router.get('/hello', ctx => {
         ctx.body = 'foo'
       })
 
-      router.get('/hello', (ctx) => {
+      router.get('/hello', ctx => {
         ctx.body = 'bar'
       })
 

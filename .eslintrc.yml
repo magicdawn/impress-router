@@ -18,7 +18,6 @@ rules:
   yoda: error
   no-var: error
   no-const-assign: error
-  strict: [error, global]
   comma-dangle: [error, only-multiline]
 
   # indent

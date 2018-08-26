@@ -1,7 +1,7 @@
 'use strict'
 
-const app = new(require('koa'))
-const router = new(require('../../'))
+const app = new (require('koa'))()
+const router = new (require('../../'))()
 app.use(router)
 
 const _static = require('koa-static')

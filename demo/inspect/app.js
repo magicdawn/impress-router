@@ -1,5 +1,5 @@
 'use strict'
-const app = module.exports = new(require('koa'))()
+const app = (module.exports = new (require('koa'))())
 const Router = require('../')
 const co = require('co')
 const router = new Router()
@@ -13,7 +13,7 @@ router.use('/public', function(ctx, next) {
   ctx.body = {
     originalPath: ctx.originalPath,
     basePath: ctx.basePath,
-    path: ctx.path
+    path: ctx.path,
   }
 })
 
@@ -44,7 +44,7 @@ routerC.get('/', function(ctx, next) {
   ctx.body = {
     path: ctx.path,
     basePath: ctx.basePath,
-    originalPath: ctx.originalPath
+    originalPath: ctx.originalPath,
   }
 })
 
@@ -53,7 +53,7 @@ routerC.get('/', function(ctx, next) {
  */
 router.get('/user/:id/detail', function(ctx, next) {
   ctx.body = {
-    id: ctx.params.id
+    id: ctx.params.id,
   }
 })
 
@@ -61,12 +61,12 @@ router.get('/user/:id/detail', function(ctx, next) {
  * nested param
  */
 const routerUser = new Router({
-  mergeParams: true
+  mergeParams: true,
 })
 router.use('/user/:id', routerUser)
 routerUser.get('/:field', function(ctx, next) {
   ctx.body = {
     id: ctx.params.id,
-    field: ctx.params.field
+    field: ctx.params.field,
   }
 })
