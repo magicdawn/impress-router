@@ -1,6 +1,5 @@
 # impress-router
-
-port express router to koa
+> express style router for koa v2
 
 [![Build Status](https://img.shields.io/travis/magicdawn/express-modern.svg?style=flat-square)](https://travis-ci.org/magicdawn/impress-router)
 [![Coverage Status](https://img.shields.io/codecov/c/github/magicdawn/impress-router.svg?style=flat-square)](https://codecov.io/gh/magicdawn/impress-router)
@@ -13,11 +12,7 @@ port express router to koa
 ## Install
 
 ```sh
-# koa@2
-npm i impress-router --save
-
-# koa@1, see koa-v1 branch
-npm i impress-router@0 --save
+$ npm i impress-router -S
 ```
 
 ## API
@@ -25,97 +20,83 @@ npm i impress-router@0 --save
 ### basic
 
 ```js
-const Router = require('impress-router');
-const router = new Router();
-app.use(router);
+const Router = require('impress-router')
+const router = new Router()
+app.use(router)
 ```
 
-`new Router(options)`
+`new Router(options)` Options
 
-Options
+|key|type|default|description|
+|---|----|-------|-----------|
+|`strict`| `Boolean` | `false` | when `false` the trailing `/` is optional`, see [path-to-regexp](https://github.com/pillarjs/path-to-regexp) doc |
+|`sensitive`| `Boolean` | `false` | when `false`, case is not `sensitive`, see [path-to-regexp](https://github.com/pillarjs/path-to-regexp) doc |
+|`mergeParams`| `Boolean` | `true` | when `true`, merge params when we have nested routers |
+|`useThis`| `Boolean` | `true` | when `true`, the handler `this` equal to `ctx` |
 
-- `strict` & `sensitive` : these are [path-to-regexp](https://github.com/pillarjs/path-to-regexp) options
-  - `strict`: default false, when false the trailing `/` is optional
-  - `sensitive`: default false, case sensitive
-- `mergeParams` : default true, whether merge params when nested router
-- `useThis`: use `this` = `ctx`, like koa v1. defaults to true
 
+### router.use([path], middleware)
 
-### middleware
+middleware can be mount on path, or on the root path `/`
 
-use middleware on some path, and you got `ctx.path` `ctx.basePath` `ctx.originalPath`
-just as Express's `req.baseUrl` / `req.originalUrl` does:
+- `ctx.basePath` the mount path
+- `ctx.path` the path with `basePath` trimed
+- `ctx.originalPath` the untrimed path
+
+It's kind like Express `req.baseUrl` / `req.originalUrl` does
 
 ```js
-const app = new (require('koa'))();
-const router = new (require('impress-router'))();
-app.use(router);
+const app = new (require('koa'))()
+const router = new (require('impress-router'))()
+app.use(router)
 
-router.use('/public', (ctx, next){
-
+router.use('/public', (ctx, next) {
   // when requesting `/public/js/foo.js`
-  ctx.path; // `/js/foo.js`
-  ctx.basePath; // `/public`
-  ctx.originalPath; // `/public/js/foo.js`
-
-  return next();
-});
-
-```
-
-use middleware on all requests:
-
-```js
-const app = new (require('koa'))();
-const router = new require('impress-router')();
-app.use(router);
-
-router.use((ctx, next) => {
-  ctx.user = { name: 'foo', age: 18 };
-  return next();
+  ctx.path // `/js/foo.js`
+  ctx.basePath // `/public`
+  ctx.originalPath // `/public/js/foo.js`
+  return next()
 })
+
 ```
 
-### route
+### app.<method>(path, handler)
 
-#### Features
-
-- `GET POST ...` methods exposed by `methods` module are supported
+- `get` / `post` / `...` methods exposed by `methods` module are supported
 - `all` method supported, via `router.all(path,fn)`
 - `OPTIONS` method supported, automatic build the `Allow` response
 
-
 ```js
-const app = new (require('koa'))();
-const router = new (require('impress-router'))();
-app.use(router);
+const app = new (require('koa'))()
+const router = new (require('impress-router'))()
+app.use(router)
 
 router.get('/hello', ctx => {
-  ctx.body = 'world';
-});
+  ctx.body = 'world'
+})
 
 router.all('/foo', ctx => {
-  ctx.body = 'bar';
-});
+  ctx.body = 'bar'
+})
 ```
 
 #### params
 
 ```js
-const app = new (require('koa'))();
-const Router = require('impress-router');
-const router = new Router();
-app.use(router);
+const app = new (require('koa'))()
+const Router = require('impress-router')
+const router = new Router()
+app.use(router)
 
-const userRouter = new Router();
-router.use('/user/:uid', userRouter);
+const userRouter = new Router()
+router.use('/user/:uid', userRouter)
 
 userRouter.get('/:field', ctx => {
   ctx.body = {
     uid: this.params.uid,
     field: this.params.field
-  };
-});
+  }
+})
 
 // GET /user/magicdawn/name
 // =>
@@ -123,7 +104,9 @@ userRouter.get('/:field', ctx => {
 ```
 
 ## Why
-`require('express').Router` is very nice, so I'm porting it to koa
+- express.Router is very nice
+- koa-router package is not very friendly, especially on middleware mount on path
+- so I'm porting it to koa
 
 ## License
 the MIT License http://magicdawn.mit-license.org
