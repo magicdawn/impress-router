@@ -35,7 +35,7 @@ app.use(router)
 |`useThis`| `Boolean` | `true` | when `true`, the handler `this` equal to `ctx` |
 
 
-### router.use([path], middleware)
+### `router.use([path], middleware)`
 
 middleware can be mount on path, or on the root path `/`
 
@@ -60,7 +60,7 @@ router.use('/public', (ctx, next) {
 
 ```
 
-### app.<method>(path, handler)
+### `app.<method>(path, handler)`
 
 - `get` / `post` / `...` methods exposed by `methods` module are supported
 - `all` method supported, via `router.all(path,fn)`
