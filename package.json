@@ -4,7 +4,7 @@
   "description": "port Express router to koa",
   "main": "lib/router.js",
   "dependencies": {
-    "debug": "^3.1.0",
+    "debug": "^4.0.0",
     "koa-compose": "^4.1.0",
     "lodash": "^4.17.10",
     "methods": "^1.1.2",
