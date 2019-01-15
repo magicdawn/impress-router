@@ -47,7 +47,7 @@ describe('Router', function() {
     j.path.should.equal('/')
   })
 
-  describe('options - useThis', function() {
+  describe('opts - useThis', function() {
     it('it works', async function() {
       router.get('/hello/:name', function(ctx) {
         this.should.equal(ctx)
@@ -333,6 +333,26 @@ describe('Router', function() {
       const res = await request(server).get('/hello')
       res.status.should.equal(200)
       res.text.should.equal('foo')
+    })
+  })
+
+  /**
+   * augmentApp
+   */
+
+  describe('#augmentApp', function() {
+    it('it works', async function() {
+      const app = new Koa()
+      const router = new Router()
+      router.augmentApp(app)
+      const server = app.callback()
+
+      app.get('/hello', function() {
+        this.body = 'world'
+      })
+
+      const res = await request(server).get('/hello')
+      res.text.should.equal('world')
     })
   })
 })
