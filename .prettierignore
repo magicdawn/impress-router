@@ -1,2 +1,2 @@
-*.json
+package.json
 *.md
