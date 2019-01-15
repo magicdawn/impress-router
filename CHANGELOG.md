@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.6.0 2019-01-15
+
+- add `router#augmentApp` for better experience
+
 ## v1.5.0 2017-04-10
 
 - add `useThis` option, use `this` instead of `ctx` like koa v1
