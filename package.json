@@ -21,7 +21,7 @@
     "mocha": "^5.2.0",
     "prettier": "latest",
     "should": "^13.2.3",
-    "supertest": "^3.3.0"
+    "supertest": "^3.4.0"
   },
   "scripts": {
     "test": "mocha",
