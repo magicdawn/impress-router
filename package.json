@@ -18,7 +18,7 @@
     "koa": "^2.6.2",
     "koa-static": "^5.0.0",
     "lint-staged": "latest",
-    "mocha": "^5.2.0",
+    "mocha": "^6.2.1",
     "prettier": "latest",
     "should": "^13.2.3",
     "supertest": "^3.3.0"
